@@ -1,9 +1,26 @@
 import Vue from 'vue';
 
-var webSocketHost = "104.131.53.137";
-var webSocketPort = "8085";
+//localhost
+//var webSocketHost = "localhost";
+//var webSocketPort = "8085";
 
-var ws = new WebSocket("ws://" + webSocketHost + ":" + webSocketPort);
+//server
+var WEBSOCKET_HOST = "104.131.53.137";
+var WEBSOCKET_PORT = "8085";
+
+var ws = new WebSocket("ws://" + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT);
+
+var MAP_STATUS = {
+  "1": 'Sistema Estable',
+  "2": 'Fuga baja en el sistema',
+  "3": 'Fuga alta en el sistema'
+}
+
+var MAP_LEAK_MAGNITUD = {
+  "1": "Fuga Baja",
+  "2": "Fuga Mediana",
+  "3": "Fuga Alta"
+}
 
 var dataSensor1 = {
   id: '', 
@@ -32,23 +49,33 @@ var dataSensor3 = {
   timeSent: ''
 };
 
-var sensor1 = new Vue({
-    el: "#sensor1",
-    data: dataSensor1
+var systemStatus = {
+  status: ''
+};
+
+new Vue({
+  el: "#sensor1",
+  data: dataSensor1
 });
 
-var sensor2 = new Vue({
-    el: "#sensor2",
-    data: dataSensor2
+new Vue({
+  el: "#sensor2",
+  data: dataSensor2
 });
 
-var sensor3 = new Vue({
-    el: "#sensor3",
-    data: dataSensor3
+new Vue({
+  el: "#sensor3",
+  data: dataSensor3
+});
+
+new Vue({
+  el: "#system-status",
+  data: systemStatus
 });
 
 ws.onmessage = function(event) {
   var d = JSON.parse(event.data);
+  systemStatus.status = MAP_STATUS[d.status];
   switch(d.id) {
     case 1:
       dataSensor1.id = d.id;
@@ -75,5 +102,4 @@ ws.onmessage = function(event) {
       dataSensor3.timeSent = d.time_sent;
     break;
   }
-  
 }

@@ -15,21 +15,31 @@ body {
   border-radius: 40px;
 }
 
-.container-metrics {
-  background-color: #4181D5;
-  min-width: 150px;
-  max-width: auto;
-  min-height: 150px;
-  max-height: auto;
+.container-box {
   border-style: solid;
   border-color: #367AD2;
   border-radius: 10px;
   padding: 5px;
+  background-color: #4181D5;
+}
+
+.container-metrics {
+  min-width: 150px;
+  max-width: auto;
+  min-height: 150px;
+  max-height: auto;
 }
 
 .container-metrics ul {
   list-style-type: none;
   padding: 0;
+}
+
+.container-status {
+  width: 300px;
+  height: 100px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .key-metric {
