@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-var webSocketHost = 104.131.53.137;
+var webSocketHost = "104.131.53.137";
 var webSocketPort = "8085";
 
 alert(webSocketHost);
