@@ -9,7 +9,7 @@
     "serve": "http-server  -o -c 1 -a localhost",
     "serve-prod": "http-server  -o -c 1 -a 104.131.53.137",
     "dev": "npm-run-all --parallel watchify serve",
-    "prod": "npm-run-all --parallel watchify serve-prod",
+    "prod": "npm-run-all --parallel serve-prod",
     "lint": "eslint --ext .js,.vue src",
     "build": "cross-env NODE_ENV=production browserify -g envify -p [ vueify/plugins/extract-css -o dist/build.css ] -e src/main.js | uglifyjs -c warnings=false -m > dist/build.js"
   },
