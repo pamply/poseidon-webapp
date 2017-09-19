@@ -3,8 +3,6 @@ import Vue from 'vue';
 var webSocketHost = "104.131.53.137";
 var webSocketPort = "8085";
 
-alert(webSocketHost);
-
 var ws = new WebSocket("ws://" + webSocketHost + ":" + webSocketPort);
 
 var dataSensor1 = {
