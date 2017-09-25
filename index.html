@@ -3,22 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <title>Poseidón</title>
     <link rel="stylesheet" href="dist/build.css">
   </head>
   <body>
     <div id="app">
-      <div class="container">
-        <div class="row justify-content-sm-center">
-          <div class="col-sm"><img src="images/logo.jpg" width="75%" /></div>
-          <div class="col-sm" style="margin: 50px;"><h1 class="title">Poseidón</h1></div>
-          <div class="col-sm"></div>
-        </div>
-
-        <div class="row justify-content-sm-center">
-            <div>
-              <div class="container-box container-metrics">
+      <div id="header">
+        <img src="images/logo.jpg" width="20%" />
+        <div><h1 class="title">Poseidón</h1></div>
+      </div>
+      <div id="container">
+        <div id="diagram-container">
+          <!-- HEADER diagram -->
+          <div>
+            <div style="width: 150px; margin:0 auto;">
+              <div class="container-box container-metrics" >
                 <div class="table" id="sensor1">
                   <div class="table-row">
                     <div class="table-cell"><span class="key-metric">ID:</span></div>
@@ -44,23 +43,65 @@
                     <div class="table-cell"><span class="key-metric">Time sent:</span></div>
                     <div class="table-cell"><span class="value-metric">{{timeSent}}</span></div>
                   </div>
-                </div>
+                 </div>
               </div>
               <div class="sensor sensor-top"><span>S 1</span></div>
-              
-              
             </div>
-        </div>
-
-        <div class="row no-gutters justify-content-sm-center">
-          <div class="col-sm-2 vertical-parent" ><img class="water-tank" src="images/water-tank.png" /></div>
-          <div class="col-sm-6" id="container-diagram"></div>
-          <div class="col-sm-1 vertical-parent">
-            <!--<div class="sensor vertical"><span>S 3</span></div>-->
           </div>
-          <div class="col-sm-1 vertical-parent">
-            <!--<div class="container-box container-metrics container-metrics-right">
-              <div class="table" id="sensor3">
+
+          <!-- BODY diagram -->
+          <div id="body-diagram">
+            <div><img src="images/water-tank.png" /></div>
+            <div>
+              <svg id="pipe-area">
+                <polyline points="0,100 40,100 40,10 
+                                  500,10 500,250 40,250 
+                                  40,150 0,150" 
+                  style="fill:none; stroke: #215AA5; stroke-width:10; stroke-linejoin: round;" />
+              </svg>
+            </div>
+            <div class="vertical-parent">
+              <div class="sensor vertical"><span>S 3</span></div>
+            </div>
+            <div>
+              <div class="container-box container-metrics">
+                <div class="table" id="sensor3">
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">ID:</span></div>
+                    <div class="table-cell"><span class="value-metric">{{id}}</span></div>
+                  </div>
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">Pressure:</span> </div>
+                    <div class="table-cell"><span class="value-metric">{{pressure}}</span></div>
+                  </div>
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">Flow:</span></div>
+                    <div class="table-cell"><span class="value-metric">{{flow}}</span></div>
+                  </div>
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">Lat:</span></div>
+                    <div class="table-cell"><span class="value-metric">{{lat}}</span></div>
+                  </div>
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">Lon:</span></div>
+                    <div class="table-cell"><span class="value-metric">{{lon}}</span></div>
+                  </div>
+                  <div class="table-row">
+                    <div class="table-cell"><span class="key-metric">Time sent:</span></div>
+                    <div class="table-cell"><span class="value-metric">{{timeSent}}</span></div>
+                  </div>
+                 </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FOOTER diagram -->
+          <div id="footer-diagram">
+            <div></div>
+            <div style="width: 150px; margin:0 auto;">
+              <div class="sensor sensor-bottom"><span>S 2</span></div>
+              <div class="container-box container-metrics">
+                <div class="table" id="sensor2">
                   <div class="table-row">
                     <div class="table-cell"><span class="key-metric">ID:</span></div>
                     <div class="table-cell"><span class="value-metric">{{id}}</span></div>
@@ -86,54 +127,19 @@
                     <div class="table-cell"><span class="value-metric">{{timeSent}}</span></div>
                   </div>
                 </div>
-            </div>-->
-          </div>
-        </div>
-
-        <div class="row justify-content-sm-center">
-          <div class="col-sm-4" ></div>
-          <div class="col-sm-2">
-            <div class="sensor sensor-bottom"><span>S 2</span></div>
-            <div class="container-box container-metrics">
-              <div class="table" id="sensor2">
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">ID:</span></div>
-                    <div class="table-cell"><span class="value-metric">{{id}}</span></div>
-                  </div>
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">Pressure:</span> </div>
-                    <div class="table-cell"><span class="value-metric">{{pressure}}</span></div>
-                  </div>
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">Flow:</span></div>
-                    <div class="table-cell"><span class="value-metric">{{flow}}</span></div>
-                  </div>
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">Lat:</span></div>
-                    <div class="table-cell"><span class="value-metric">{{lat}}</span></div>
-                  </div>
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">Lon:</span></div>
-                    <div class="table-cell"><span class="value-metric">{{lon}}</span></div>
-                  </div>
-                  <div class="table-row">
-                    <div class="table-cell"><span class="key-metric">Time sent:</span></div>
-                    <div class="table-cell"><span class="value-metric">{{timeSent}}</span></div>
-                  </div>
-                </div>
+              </div>
             </div>
-          </div>
-          <div class="col-sm-2"></div>
-          <div class="col-sm-2">
+            <div>
               <div id="system-status" class="container-box container-status">
                 <p>Estado del Sistema:</p>
                 <p>{{status}}</p>
               </div>
             </div>
+          </div>
         </div>
-
       </div>
     </div>
     <script src="dist/build.js"></script>
+    <script src="dist/svg-script.js"></script>
   </body>
 </html>
