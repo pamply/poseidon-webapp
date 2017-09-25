@@ -106,3 +106,32 @@ body {
   margin-left: -100px;
   margin-top: 50px;
 }
+
+.key-metric {
+  font-weight: bold;
+  font-size: small;
+}
+
+.value-metric {
+  font-size: smaller;
+  margin-left: 5px;
+}
+
+.table {
+  display: table;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.table-cell {
+  display: table-cell;
+  width: 100%;
+  padding: 1px;
+}
+
+.div-container-metrics, .div-container-metrics-right {
+  width: 220px;
+  margin:0 auto;
+}
