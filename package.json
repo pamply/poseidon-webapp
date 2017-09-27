@@ -7,7 +7,7 @@
   "scripts": {
     "watchify": "watchify -vd -p browserify-hmr -e src/main.js -o dist/build.js",
     "serve": "http-server  -o -c 1 -a localhost",
-    "serve-prod": "http-server  -o -c 1 -a 104.131.53.137",
+    "serve-prod": "http-server  -c 1 -p 8080 -a 0.0.0.0",
     "dev": "npm-run-all --parallel watchify serve",
     "prod": "npm-run-all --parallel serve-prod",
     "lint": "eslint --ext .js,.vue src",
