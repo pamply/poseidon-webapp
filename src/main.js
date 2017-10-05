@@ -1,12 +1,19 @@
 import Vue from 'vue';
+var moment = require('moment')
+
+global.pressureChart = '';
+global.flowChart     = '';  
+global.limitData     = 10;
+global.latLng        = {lat: 25.111111, lng: -100.111111};
 
 //localhost
-//var webSocketHost = "localhost";
-//var webSocketPort = "8085";
+//var WEBSOCKET_HOST = "localhost";
+//var WEBSOCKET_PORT = "8085";
 
 //server
 var WEBSOCKET_HOST = "104.131.53.137";
 var WEBSOCKET_PORT = "8085";
+
 
 var ws = new WebSocket("ws://" + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT);
 
@@ -63,10 +70,11 @@ new Vue({
   data: dataSensor2
 });
 
-new Vue({
+// Desactivate sensor # 3
+/*new Vue({
   el: "#sensor3",
   data: dataSensor3
-});
+});*/
 
 new Vue({
   el: "#system-status",
@@ -102,4 +110,29 @@ ws.onmessage = function(event) {
       dataSensor3.timeSent = d.time_sent;
     break;
   }
+
+  if (latLng['lat'] !== d.lat || latLng['lng'] !== d.lon) {
+    latLng['lat'] = d.lat;
+    latLng['lng'] = d.lon;
+  }
+
+  if (pressureChart.data.datasets[0].data.length === limitData) {
+    pressureChart.data.datasets[0].data.pop();
+
+  }
+
+  if (flowChart.data.datasets[0].data.length === limitData) {
+    flowChart.data.datasets[0].data.pop();
+  }
+
+  flowChart.data.datasets[0].data.unshift({x: moment(d.time_sent).valueOf(), y: d.flow})
+  flowChart.update()
+
+  pressureChart.data.datasets[0].data.unshift({x: moment(d.time_sent).valueOf(), y: d.pressure})
+  pressureChart.update();
+
 }
+
+
+import chart from './chart';
+import maps  from './maps';
