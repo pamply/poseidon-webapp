@@ -6,7 +6,7 @@ var moment = require('moment');
 var limitData = 10;
 
 var GET_OPTIONS = {
-  host: "localhost",
+  host: "104.131.53.137",
   port: "3000",
   path: "/metrics?limit=" + limitData,
   method: "GET",
