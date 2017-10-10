@@ -3,24 +3,24 @@ var http   = require('http');
 var R      = require('ramda');
 var moment = require('moment');
 
-var limitData = 10;
+var limitData = 500;
+var overMinutes = 10;
 
 var GET_OPTIONS = {
   host: "104.131.53.137",
   port: "3000",
-  path: "/metrics?limit=" + limitData,
+  path: "/metrics?limit=" + limitData + "&overMinutes=" + overMinutes,
   method: "GET",
   headers: {
     "Content-Type": "application/json"
   }
 }
 
-var getLabels = function() {
+var getLabels = function(data) {
   var labels = []
   for (let i = 0; i < limitData; i++) {
     labels.push("")
   }
-
   return labels;
 }
 
@@ -34,8 +34,14 @@ var initChart = function(metrics) {
     data: {
       datasets: [{
         data: pressureData,
+        tension: 0,
+        borderWidth: 2,
+        radius: 0,
+        hitRadius: 4,
+        pointStyle: 'line',
         label: 'Presión'
-      }]
+      }],
+      labels: getLabels()
     },
     options: getOptions(metrics) 
   });
@@ -45,8 +51,14 @@ var initChart = function(metrics) {
     data: {
       datasets: [{
         data: flowData,
+        tension: 0,
+        borderWidth: 2,
+        radius: 0,
+        hitRadius: 4,
+        pointStyle: 'line',
         label: 'Flujo'
-      }]
+      }],
+      labels: getLabels()
     },
     options: getOptions(metrics) 
   })
@@ -58,9 +70,12 @@ var getOptions = function(data) {
     scales: {
       xAxes: [{
         id: 'x-axis-time',
-        type: 'time',
-        time: {
-          min: data[limitData-1] ? data[limitData-1].x : 1506723750000
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 4,
+          maxRotation: 0
         }
       }],
       yAxes: [{
@@ -90,7 +105,7 @@ var transformData = function (data, attr) {
   console.log(chartData)
   
   for (let i = 0; i < limitData - data.length; i++) {
-    chartData.push(null);
+    chartData.unshift(null);
   }
 
   return chartData
@@ -101,7 +116,6 @@ var requestChartData = function() {
     res.setEncoding('utf8')
     res.on('data', function(chunk) {
       var data = JSON.parse(chunk)
-
       if (data.length > 0) {
         initChart(data)
         clearInterval(intervalReq)

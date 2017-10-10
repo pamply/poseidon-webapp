@@ -3,17 +3,11 @@ var moment = require('moment')
 
 global.pressureChart = '';
 global.flowChart     = '';  
-global.limitData     = 10;
+global.limitData     = 500;
 global.latLng        = {lat: 25.111111, lng: -100.111111};
 
-//localhost
-//var WEBSOCKET_HOST = "localhost";
-//var WEBSOCKET_PORT = "8085";
-
-//server
 var WEBSOCKET_HOST = "104.131.53.137";
 var WEBSOCKET_PORT = "8085";
-
 
 var ws = new WebSocket("ws://" + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT);
 
@@ -21,6 +15,12 @@ var MAP_STATUS = {
   "1": 'Sistema Estable',
   "2": 'Fuga baja en el sistema',
   "3": 'Fuga alta en el sistema'
+}
+
+var MAP_STATUS_STYLE = {
+  "1": 'ok',
+  "2": 'warning',
+  "3": 'alert'
 }
 
 var MAP_LEAK_MAGNITUD = {
@@ -57,7 +57,8 @@ var dataSensor3 = {
 };
 
 var systemStatus = {
-  status: ''
+  status: '',
+  styleStatus: 'ok'
 };
 
 new Vue({
@@ -84,6 +85,8 @@ new Vue({
 ws.onmessage = function(event) {
   var d = JSON.parse(event.data);
   systemStatus.status = MAP_STATUS[d.status];
+  systemStatus.styleStatus = MAP_STATUS_STYLE[d.status];
+  
   switch(d.id) {
     case 1:
       dataSensor1.id = d.id;
@@ -117,18 +120,17 @@ ws.onmessage = function(event) {
   }
 
   if (pressureChart.data.datasets[0].data.length === limitData) {
-    pressureChart.data.datasets[0].data.pop();
-
+    pressureChart.data.datasets[0].data.shift();
   }
 
   if (flowChart.data.datasets[0].data.length === limitData) {
-    flowChart.data.datasets[0].data.pop();
+    flowChart.data.datasets[0].data.shift();
   }
 
-  flowChart.data.datasets[0].data.unshift({x: moment(d.time_sent).valueOf(), y: d.flow})
+  flowChart.data.datasets[0].data.push({x: moment(d.time_sent).valueOf(), y: d.flow})
   flowChart.update()
 
-  pressureChart.data.datasets[0].data.unshift({x: moment(d.time_sent).valueOf(), y: d.pressure})
+  pressureChart.data.datasets[0].data.push({x: moment(d.time_sent).valueOf(), y: d.pressure})
   pressureChart.update();
 
 }

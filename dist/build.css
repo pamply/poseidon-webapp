@@ -55,6 +55,26 @@ h1 {
   text-align: center;
 }
 
+.container-status-default {
+  background-color: #4181D5;
+}
+
+.container-status-ok {
+  background-color: #0FA463;
+  border-color: #059255;
+}
+
+.container-status-warning {
+  background-color: #F77C00;
+  border-color: #E27100;
+}
+
+.container-status-alert {
+  background-color: #D42D2D;
+  border-color: #BD1E1E;
+
+}
+
 .container-metrics {
   min-width: 150px;
   max-width: auto;

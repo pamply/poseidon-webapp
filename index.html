@@ -147,15 +147,15 @@
               </div>
             </div>
           </div>
-          <div>
-            <div id="system-status" class="container-box container-status">
+          <div id="system-status">
+            <div v-bind:class="['container-box', 'container-status-' + styleStatus, 'container-status']">
               <p>Estado del Sistema:</p>
               <p>{{status}}</p>
             </div>
           </div>
         </div>
       </div>
-
+    
 
       <!-- Contenedor de gráficas -->
       <h1 id="graph-container">Gráficas</h1> 
