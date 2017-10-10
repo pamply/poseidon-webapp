@@ -3,11 +3,15 @@ var moment = require('moment')
 
 global.pressureChart = '';
 global.flowChart     = '';  
-global.limitData     = 500;
+global.limitData     = '';
 global.latLng        = {lat: 25.111111, lng: -100.111111};
+global.map_index_sensor_pressure = {};
+global.map_index_sensor_flow     = {};
 
 var WEBSOCKET_HOST = "104.131.53.137";
 var WEBSOCKET_PORT = "8085";
+
+
 
 var ws = new WebSocket("ws://" + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT);
 
@@ -83,6 +87,10 @@ new Vue({
 });
 
 ws.onmessage = function(event) {
+  console.log(pressureChart.data)
+  if (!pressureChart.data || !flowChart.data) {
+    return;
+  }
   var d = JSON.parse(event.data);
   systemStatus.status = MAP_STATUS[d.status];
   systemStatus.styleStatus = MAP_STATUS_STYLE[d.status];
@@ -119,18 +127,18 @@ ws.onmessage = function(event) {
     latLng['lng'] = d.lon;
   }
 
-  if (pressureChart.data.datasets[0].data.length === limitData) {
-    pressureChart.data.datasets[0].data.shift();
+  if (pressureChart.data.datasets[map_index_sensor_pressure[d.id]].data.length === limitData) {
+    pressureChart.data.datasets[map_index_sensor_pressure[d.id]].data.shift();
   }
 
-  if (flowChart.data.datasets[0].data.length === limitData) {
-    flowChart.data.datasets[0].data.shift();
+  if (flowChart.data.datasets[map_index_sensor_flow[d.id]].data.length === limitData) {
+    flowChart.data.datasets[map_index_sensor_flow[d.id]].data.shift();
   }
 
-  flowChart.data.datasets[0].data.push({x: moment(d.time_sent).valueOf(), y: d.flow})
+  flowChart.data.datasets[map_index_sensor_flow[d.id]].data.push({x: moment(d.time_sent).valueOf(), y: d.flow})
   flowChart.update()
 
-  pressureChart.data.datasets[0].data.push({x: moment(d.time_sent).valueOf(), y: d.pressure})
+  pressureChart.data.datasets[map_index_sensor_pressure[d.id]].data.push({x: moment(d.time_sent).valueOf(), y: d.pressure})
   pressureChart.update();
 
 }
