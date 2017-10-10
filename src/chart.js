@@ -4,7 +4,7 @@ var R      = require('ramda');
 var _      = require('lodash')
 var moment = require('moment');
 
-limitData = 200;
+var limitData = 200;
 var overMinutes = 10;
 
 var GET_OPTIONS = {

@@ -3,7 +3,6 @@ var moment = require('moment')
 
 global.pressureChart = '';
 global.flowChart     = '';  
-global.limitData     = '';
 global.latLng        = {lat: 25.111111, lng: -100.111111};
 global.map_index_sensor_pressure = {};
 global.map_index_sensor_flow     = {};
@@ -11,7 +10,7 @@ global.map_index_sensor_flow     = {};
 var WEBSOCKET_HOST = "104.131.53.137";
 var WEBSOCKET_PORT = "8085";
 
-
+var limitData = 200;
 
 var ws = new WebSocket("ws://" + WEBSOCKET_HOST + ":" + WEBSOCKET_PORT);
 
