@@ -1,7 +1,7 @@
 var map;
 var marker;
 
-global.initMap = function () {
+var initMap = function (latLng) {
   map = new google.maps.Map(document.getElementById('map'), {
     center: latLng,
     zoom: 8

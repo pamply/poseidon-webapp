@@ -3,6 +3,7 @@ var http   = require('http');
 var R      = require('ramda');
 var _      = require('lodash')
 var moment = require('moment');
+var showMap = require('./maps')
 
 var limitData = 200;
 var overMinutes = 10;
@@ -148,6 +149,9 @@ var requestChartData = function() {
 
       if (data.length > 0) {
         initChart(data)
+        var metricSample = _.first(_.compact(data))
+        
+        showMap({lat: metricSample.lat, lng: metricSample.lon})
         clearInterval(intervalReq)
       }
     })

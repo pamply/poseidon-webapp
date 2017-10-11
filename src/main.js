@@ -1,9 +1,10 @@
 import Vue from 'vue';
+import showMap  from './maps';
 var moment = require('moment')
 
 global.pressureChart = '';
 global.flowChart     = '';  
-global.latLng        = {lat: 25.111111, lng: -100.111111};
+global.latLng        = {lat: 0, lng: 0};
 global.map_index_sensor_pressure = {};
 global.map_index_sensor_flow     = {};
 
@@ -86,7 +87,6 @@ new Vue({
 });
 
 ws.onmessage = function(event) {
-  console.log(pressureChart.data)
   if (!pressureChart.data || !flowChart.data) {
     return;
   }
@@ -140,8 +140,8 @@ ws.onmessage = function(event) {
   pressureChart.data.datasets[map_index_sensor_pressure[d.id]].data.push({x: moment(d.time_sent).valueOf(), y: d.pressure})
   pressureChart.update();
 
+  showMap(latLng)
 }
 
 
 import chart from './chart';
-import maps  from './maps';
