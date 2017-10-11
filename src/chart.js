@@ -5,7 +5,7 @@ var _      = require('lodash')
 var moment = require('moment');
 var showMap = require('./maps')
 
-var limitData = 200;
+var limitData = 100;
 var overMinutes = 10;
 
 var GET_OPTIONS = {
@@ -30,22 +30,20 @@ var getLabels = function(data) {
   return labels;
 }
 
-var getDatasets = function(metrics, type, label) {
+var getDatasets = function(metrics, type, label, index) {
 
   var commmonOptions = {
-    tension: 0,
     borderWidth: 2,
+    tension: 0.3,
     radius: 0,
     hitRadius: 4,
     pointStyle: 'line',
     cubicInterpolationMode: 'monotone',
-    backgroundColor: "transparent"    
+    backgroundColor: "transparent"
   }
 
   var sensorIds = [];
   var datasets = [];
-
-  console.log(metrics)
   
   var sensors = _.uniqBy(metrics, 'id')
 
@@ -56,13 +54,14 @@ var getDatasets = function(metrics, type, label) {
       }
     });
 
-    console.log(dataset)
+    var idx = (index)? index : idx
+
     var options = _.clone(commmonOptions)
     options.borderColor = COLORS_LINE[idx]
     options.data = transformData(dataset, type)
     
     if (type === 'flow') {
-      map_index_sensor_flow[sensor.id] = idx
+      map_index_sensor_flow[sensor.id] = idx 
     } else {
       map_index_sensor_pressure[sensor.id] = idx
     }
@@ -105,7 +104,7 @@ var getOptions = function(data) {
           display: false
         },
         ticks: {
-          maxTicksLimit: 4,
+          maxTicksLimit: 8,
           maxRotation: 0
         }
       }],
@@ -150,7 +149,7 @@ var requestChartData = function() {
       if (data.length > 0) {
         initChart(data)
         var metricSample = _.first(_.compact(data))
-        
+
         showMap({lat: metricSample.lat, lng: metricSample.lon})
         clearInterval(intervalReq)
       }
@@ -160,3 +159,4 @@ var requestChartData = function() {
 
 var intervalReq = setInterval(requestChartData , 3000);
 
+module.exports = getDatasets
