@@ -134,7 +134,7 @@ ws.onmessage = function(event) {
   }
 
   if (!flowChart.data.datasets[map_index_sensor_flow[d.id]]) {
-    flowChart.data.datasets.push(getDatasets([d], 'flow', 'Flow', _.size(flowChart.data.datasets))[0])
+    flowChart.data.datasets.push(getDatasets([d], 'flow', 'Flujo', _.size(flowChart.data.datasets))[0])
   } else {
     console.log(_.size(flowChart.data.datasets[map_index_sensor_flow[d.id]].data))
     flowChart.data.datasets[map_index_sensor_flow[d.id]].data.push({x: moment(d.time_sent).valueOf(), y: d.flow})
